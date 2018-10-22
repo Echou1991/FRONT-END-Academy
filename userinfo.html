@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FRONT-END Academy</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div id="wraper">
+        <nav id="mainnav">
+            <ul>
+                <li><a href="index.html">Main</a></li>
+            </ul>
+        </nav>
+        <h1 id="mainHeader">Selected user onload</h1>
+        
+        <div id="user"></div>
+    </div>
+    <script>
+        // MAKING A MONSTER
+        var idinlink = $(location).attr('hash');
+
+        function getid(id) {
+            return id.split('#')[1];
+        }
+        document.getElementById("user").oncload = redirectUsers();
+
+        function redirectUsers() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts/' + getid(idinlink), true);
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    var user = JSON.parse(this.responseText);
+                    var output =
+                        '<div class="user">' +
+                        '<ul>' +
+                        '<li>userId: ' + user.userId + '</li>' +
+                        '<li>id: ' + user.id + '</li>' +
+                        '<li>Title: ' + user.title + '</li>' +
+                        '<li>Body: ' + '<br>' + user.body + '</li>' +
+                        '</ul>' +
+                        '</div>';
+                }
+                document.getElementById('user').innerHTML = output;
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+
+</html>

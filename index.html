@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FRONT-END Academy</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div id="wraper">
+        <h1 id="mainHeader">Listonload</h1>
+        <div id="userWrap">
+            <div id="users"></div>
+        </div>
+        <div id="formdiv">
+            <form action="https://jsonplaceholder.typicode.com/posts" method="post">
+                <div>
+                    <input type="hidden" id="userId" name="userId" value="1">
+                </div>
+                <div>
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title">
+                </div>
+                <div>
+                    <label for="body">Message:</label>
+                    <textarea id="body" name="body"></textarea>
+                </div>
+                <div class="button">
+                    <button type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+
+        <script>
+            document.getElementById("users").onload = loadUsers();
+
+            function loadUsers() {
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts', true);
+                xhr.onload = function () {
+                    if (this.status == 200) {
+                        var users = JSON.parse(this.responseText);
+                        var output = '';
+                        for (var i in users) {
+                            output +=
+                                '<a href="userinfo.html#' + users[i].id + '">' +
+                                '<div class="user">' +
+                                '<ul>' +
+                                '<li>userId: ' + users[i].userId + '</li>' +
+                                '<li>id: ' + users[i].id + '</li>' +
+                                '<li>Title: ' + users[i].title + '</li>' +
+                                '</ul>' +
+                                '</div>' +
+                                '</a>';
+                        }
+                        document.getElementById('users').innerHTML = output;
+                        document.getElementById('userId').value = users[i].userId + 1;
+                    }
+
+                }
+                xhr.send();
+
+            }
+        </script>
+</body>
+
+</html>
